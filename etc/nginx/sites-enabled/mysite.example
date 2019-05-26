@@ -1,0 +1,28 @@
+server {
+    include snippets/listen-http.conf;
+    server_name mysite.example.org;
+
+    access_log /var/log/nginx/mysite.example.org.access.log;
+    error_log /var/log/nginx/mysite.example.org.error.log info;
+
+    include snippets/acme-challenge.conf;
+    include snippets/https-permanent-redirect.conf;
+}
+
+server {
+    include snippets/listen-https.conf;
+    server_name mysite.example.org;
+
+    access_log /var/log/nginx/mysite.example.org.access.log;
+    error_log /var/log/nginx/mysite.example.org.error.log info;
+
+    include snippets/acme-challenge.conf;
+    #include snippets/ssl.conf;
+    #ssl_certificate      /etc/letsencrypt/live/mysite.example.org/fullchain.pem;
+    #ssl_certificate_key  /etc/letsencrypt/live/mysite.example.org/privkey.pem;
+    #include snippets/hsts.conf;
+
+    include snippets/security-headers.conf;
+    include snippets/x-frame-options-deny.conf;
+
+    root /var/www/mysite.example.org;
